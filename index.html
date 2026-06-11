@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Songo — Jeu Ekang</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ÉCRAN TITRE -->
+  <div id="screen-title" class="screen active">
+    <div class="title-content">
+      <div class="title-emblem">⬡</div>
+      <h1 class="game-title">SONGO</h1>
+      <p class="game-subtitle">Jeu de semailles Ekang · Cameroun</p>
+      <div class="title-divider"></div>
+      <p class="game-desc">
+        Jeu traditionnel des peuples Béti, Ewondo et Bulu.<br />
+        2 camps · 7 cases · 5 graines · 70 graines au total.<br />
+        Le premier à récolter <strong>40 graines</strong> remporte la partie.
+      </p>
+      <div class="mode-buttons">
+        <button class="btn-primary" id="btn-vs-ai">Jouer contre l'IA</button>
+        <button class="btn-secondary" id="btn-vs-human">2 Joueurs (local)</button>
+      </div>
+      <button class="btn-ghost" id="btn-rules-title">Lire les règles</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN RÈGLES -->
+  <div id="screen-rules" class="screen">
+    <div class="rules-panel">
+      <h2>Règles du Songo</h2>
+      <div class="rules-body">
+        <h3>Plateau</h3>
+        <p>7 cases par joueur, chacune contenant 5 graines au départ. Les cases sont numérotées 1 à 7, la case 1 est la plus à gauche de chaque joueur.</p>
+
+        <h3>Distribution</h3>
+        <p>Ramassez toutes les graines d'une case de votre camp. Déposez-les une à une : droite→gauche dans votre camp, puis gauche→droite chez l'adversaire (boucle). Si ≥ 14 graines : tour complet en sautant la case de départ, puis on continue chez l'adversaire.</p>
+
+        <h3>Récoltes</h3>
+        <p>La dernière graine tombe dans une case <em>adverse</em> (sauf case 1 adverse) contenant 1 à 3 graines → vous prenez 2 à 4 graines. La prise se propage aux cases précédentes consécutives (2–4 graines). Exception : la case 1 adverse ne peut être prise directement, sauf si elle est incluse dans une prise en chaîne.</p>
+
+        <h3>Solidarité</h3>
+        <p>Si toutes les cases adverses sont vides, jouez un coup distribuant ≥ 7 graines chez lui. Si impossible, maximisez. Si aucun coup n'atteint l'adversaire : fin de partie.</p>
+
+        <h3>Interdits</h3>
+        <ul>
+          <li>Interdit de semer 1 ou 2 graines chez l'adversaire via la case 7.</li>
+          <li>Interdit de vider complètement le camp adverse (aucune prise dans ce cas).</li>
+        </ul>
+
+        <h3>Fin de partie</h3>
+        <ul>
+          <li>Un joueur atteint 40 graines → victoire.</li>
+          <li>Moins de 10 graines sur le plateau → chacun récupère les graines dans son camp.</li>
+          <li>Solidarité impossible → fin.</li>
+          <li>Si aucun joueur n'a ≥ 40 graines → match nul.</li>
+        </ul>
+      </div>
+      <button class="btn-primary" id="btn-back-rules">Retour</button>
+    </div>
+  </div>
+
+  <!-- ÉCRAN JEU -->
+  <div id="screen-game" class="screen">
+
+    <header class="game-header">
+      <button class="btn-icon" id="btn-menu">←</button>
+      <span class="game-header-title">SONGO</span>
+      <button class="btn-icon" id="btn-rules-game">?</button>
+    </header>
+
+    <!-- Scores -->
+    <div class="scores-bar">
+      <div class="score-card" id="score-north">
+        <span class="score-name" id="name-nord">NORD</span>
+        <span class="score-value" id="score-val-nord">0</span>
+      </div>
+      <div class="score-turn" id="turn-indicator">Tour de SUD</div>
+      <div class="score-card" id="score-south">
+        <span class="score-name" id="name-sud">SUD</span>
+        <span class="score-value" id="score-val-sud">0</span>
+      </div>
+    </div>
+
+    <!-- Plateau -->
+    <div class="board-wrapper">
+
+      <!-- Rangée NORD (cases adverses du joueur SUD) -->
+      <div class="board-row" id="row-nord">
+        <!-- cases 1..7 NORD générées par JS -->
+      </div>
+
+      <!-- Séparateur central -->
+      <div class="board-center-line">
+        <span>NORD</span>
+        <div class="center-line"></div>
+        <span>SUD</span>
+      </div>
+
+      <!-- Rangée SUD -->
+      <div class="board-row" id="row-sud">
+        <!-- cases 7..1 SUD générées par JS -->
+      </div>
+
+    </div>
+
+    <!-- Message de jeu -->
+    <div class="game-message" id="game-message">Cliquez sur une case pour jouer.</div>
+
+    <!-- Bouton nouvelle partie -->
+    <button class="btn-secondary btn-new" id="btn-new-game" style="display:none">Nouvelle partie</button>
+
+  </div>
+
+  <!-- OVERLAY fin de partie -->
+  <div id="overlay-end" class="overlay hidden">
+    <div class="overlay-box">
+      <div class="overlay-icon" id="end-icon">🏆</div>
+      <h2 id="end-title">Victoire !</h2>
+      <p id="end-desc"></p>
+      <div class="end-scores">
+        <div><span id="end-name-nord"></span> : <strong id="end-score-nord"></strong></div>
+        <div><span id="end-name-sud"></span> : <strong id="end-score-sud"></strong></div>
+      </div>
+      <button class="btn-primary" id="btn-play-again">Rejouer</button>
+      <button class="btn-ghost" id="btn-go-menu">Menu</button>
+    </div>
+  </div>
+
+  <script src="songo.js"></script>
+</body>
+</html>
